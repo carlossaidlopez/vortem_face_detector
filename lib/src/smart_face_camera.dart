@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import '../face_camera.dart';
+import '../vortem_face_detector.dart';
 import 'controllers/face_camera_state.dart';
 import 'paints/face_painter.dart';
 import 'paints/hole_painter.dart';

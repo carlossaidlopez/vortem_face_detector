@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:vortem_face_detector/face_camera.dart';
+import 'package:vortem_face_detector/vortem_face_detector.dart';
 
 
 

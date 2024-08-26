@@ -1,7 +1,7 @@
 name: vortem_face_detector
-description: "A new Flutter package project."
+description: "Face detector plugin for Vortem"
 version: 0.0.1
-homepage:
+homepage: https://github.com/carlossaidlopez/vortem_face_detector.git
 
 environment:
   sdk: '>=3.4.3 <4.0.0'

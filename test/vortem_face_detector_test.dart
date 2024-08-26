@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vortem_face_detector/face_camera.dart';
+import 'package:vortem_face_detector/vortem_face_detector.dart';
 
 
 

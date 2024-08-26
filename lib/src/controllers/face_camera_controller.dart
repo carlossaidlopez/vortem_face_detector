@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vortem_face_detector/src/res/enums.dart';
 
 
-import '../../face_camera.dart';
+import '../../vortem_face_detector.dart';
 import '../handlers/enum_handler.dart';
 import '../handlers/face_identifier.dart';
 import '../utils/logger.dart';
