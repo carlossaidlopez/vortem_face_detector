@@ -23,7 +23,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.conezi.face_camera
+        package: com.saidlop.vortem_face_detector
         pluginClass: FaceCameraPlugin
       ios:
         pluginClass: FaceCameraPlugin

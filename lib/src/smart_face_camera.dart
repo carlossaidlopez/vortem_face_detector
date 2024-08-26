@@ -53,6 +53,13 @@ class SmartFaceCamera extends StatefulWidget {
   /// The controller for the [SmartFaceCamera] widget.
   final FaceCameraController controller;
 
+  // The background widget for controllers.
+  final BoxDecoration? backgroundControllersDecoration;
+  final EdgeInsetsGeometry backgroundControllersPadding;
+  final EdgeInsetsGeometry backgroundControllersMargin;
+
+  final BoxFit fixedAspectRatio;
+
   const SmartFaceCamera(
       {required this.controller,
       this.showControls = true,
@@ -70,6 +77,10 @@ class SmartFaceCamera extends StatefulWidget {
       this.indicatorAssetImage,
       this.indicatorBuilder,
       this.autoDisableCaptureControl = false,
+      this.backgroundControllersDecoration,
+      this.backgroundControllersPadding = const EdgeInsets.all(15),
+      this.backgroundControllersMargin = const EdgeInsets.all(15),
+      this.fixedAspectRatio = BoxFit.cover,
       Key? key})
       : assert(
             indicatorShape != IndicatorShape.image ||
@@ -127,7 +138,7 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                   child: OverflowBox(
                     alignment: Alignment.center,
                     child: FittedBox(
-                      fit: BoxFit.fitHeight,
+                      fit: widget.fixedAspectRatio,
                       child: SizedBox(
                         width: size.width,
                         height: size.width * cameraController.value.aspectRatio,
@@ -188,8 +199,11 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
             if (widget.showControls) ...[
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                child: 
+                Container(
+                  padding: widget.backgroundControllersPadding,
+                  margin: widget.backgroundControllersMargin,
+                  decoration: widget.backgroundControllersDecoration,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -247,8 +261,8 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
 
   /// Display the control buttons to take pictures.
   Widget _captureControlWidget(FaceCameraState value) {
-    return IconButton(
-      icon: widget.captureControlBuilder?.call(context, value.detectedFace) ??
+    return InkWell(
+      child: widget.captureControlBuilder?.call(context, value.detectedFace) ??
           CircleAvatar(
               radius: 35,
               foregroundColor:
@@ -259,7 +273,7 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.camera_alt, size: 35),
               )),
-      onPressed: widget.controller.enableControls && !_disableCapture
+      onTap: widget.controller.enableControls && !_disableCapture
           ? widget.controller.captureImage
           : null,
     );
@@ -275,8 +289,8 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
             ? Icons.flash_off
             : Icons.flash_auto;
 
-    return IconButton(
-      icon: widget.flashControlBuilder
+    return InkWell(
+      child: widget.flashControlBuilder
               ?.call(context, availableFlashMode[currentFlashMode]) ??
           CircleAvatar(
               radius: 25,
@@ -285,7 +299,7 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                 padding: const EdgeInsets.all(2.0),
                 child: Icon(icon, size: 25),
               )),
-      onPressed: widget.controller.enableControls
+      onTap: widget.controller.enableControls
           ? widget.controller.changeFlashMode
           : null,
     );
@@ -293,8 +307,8 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
 
   /// Display the control buttons to switch between camera lens.
   Widget _lensControlWidget() {
-    return IconButton(
-        icon: widget.lensControlIcon ??
+    return InkWell(
+        child: widget.lensControlIcon ??
             CircleAvatar(
                 radius: 25,
                 foregroundColor: iconColor,
@@ -302,7 +316,7 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                   padding: EdgeInsets.all(2.0),
                   child: Icon(Icons.switch_camera_sharp, size: 25),
                 )),
-        onPressed: widget.controller.enableControls
+        onTap: widget.controller.enableControls
             ? widget.controller.changeCameraLens
             : null);
   }

@@ -1,4 +1,4 @@
-package com.conezi.face_camera_example
+package com.saidlop.vortem_face_detector_example
 
 import io.flutter.embedding.android.FlutterActivity
 

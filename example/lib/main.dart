@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:vortem_face_detector/face_camera.dart';
@@ -15,7 +16,9 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-
+  final Color primeyColor = const Color(0xFF00BFA5);
+  final Color secondaryColor = const Color(0xFFFFFFFF);
+  final Color tertiaryColor = const Color(0xFF00BFA5);
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -27,16 +30,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    controller = FaceCameraController(
-      autoCapture: true,
-      defaultCameraLens: CameraLens.front,
-      onCapture: (File? image) {
-        setState(() => _capturedImage = image);
-      },
-      onFaceDetected: (Face? face) {
-        //Do something
-      },
-    );
+    controller = 
+    FaceCameraController(
+            autoCapture: false,
+            defaultFlashMode: 
+                 CameraFlashMode.auto,
+            defaultCameraLens: CameraLens.back,
+            onCapture: (File? image) {
+              setState(() => _capturedImage = image);
+            },
+          );
     super.initState();
   }
 
@@ -74,19 +77,156 @@ class _MyAppState extends State<MyApp> {
               );
             }
             return SmartFaceCamera(
-                controller: controller,
-                messageBuilder: (context, face) {
-                  if (face == null) {
-                    return _message('Place your face in the camera');
-                  }
-                  if (!face.wellPositioned) {
-                    return _message('Center your face in the square');
-                  }
-                  return const SizedBox.shrink();
-                });
+                          controller: controller,
+                          fixedAspectRatio: BoxFit.cover,
+                          backgroundControllersDecoration: BoxDecoration(color: Colors.black.withOpacity(0.6), borderRadius: BorderRadius.circular(10)),
+                          backgroundControllersPadding: const EdgeInsets.all(2),
+                          flashControlBuilder: (context, mode) {
+                            return Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: widget.tertiaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                mode == CameraFlashMode.auto
+                                    ? Icons.flash_auto
+                                    : mode == CameraFlashMode.always
+                                        ? Icons.flash_on
+                                        : Icons.flash_off,
+                                color: widget.secondaryColor,
+                                size: 25,
+                              ),
+                            );
+                          },
+                          captureControlBuilder: (context, detectedFace) {
+                            final face = detectedFace?.face;
+                            return Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: widget.tertiaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: face == null
+                                  ? Icon(
+                                      Icons.camera_alt,
+                                      color: widget.secondaryColor
+                                          .withOpacity(0.6),
+                                      size: 70,
+                                    )
+                                  : Icon(
+                                      Icons.camera_alt,
+                                      color: widget.secondaryColor,
+                                      size: 70,
+                                    ),
+                            );
+                          },
+                          lensControlIcon: Container(
+                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: widget.tertiaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.flip_camera_ios,
+                              color: widget.secondaryColor,
+                              size: 40,
+                            ),
+                          ),
+                          indicatorBuilder: (context, detectedFace, imageSize) {
+                            if (detectedFace == null) {
+                              return Container();
+                            }
+                            if (detectedFace.face == null) {
+                              return Container();
+                            }
+                            final face = detectedFace.face!;
+                            final faceRect = face.boundingBox;
+                            final faceCenter = Offset(
+                              faceRect.left + faceRect.width / 2,
+                              faceRect.top + faceRect.height / 2,
+                            );
+                            final faceRadius =
+                                min(faceRect.width, faceRect.height) / 2;
+                            return CustomPaint(
+                              painter: FaceIndicatorPainter(
+                                faceCenter: faceCenter,
+                                faceRadius: faceRadius,
+                                imageSize: imageSize ?? const Size(50, 50),
+                                color: widget.primeyColor,
+                              ),
+                            );
+                          },
+                          message: 'Centrar el rostro',
+                          autoDisableCaptureControl: true,
+                          messageStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          messageBuilder: (context, detectedFace) {
+                            Widget message;
+                            if (detectedFace == null) {
+                              message = Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Text(
+                                  'Rostro no encontrado',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              );
+                            } else {
+                              if (detectedFace.face != null) {
+                                message = Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Centre el rostro',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              } else {
+                                message = Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    'Rostro no encontrado',
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              }
+                            }
+                            return Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 50),
+                                  child: message,
+                                ));
+                          });
           })),
     );
   }
+  
 
   Widget _message(String msg) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 15),
@@ -100,5 +240,54 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+}
+class FaceIndicatorPainter extends CustomPainter {
+  final Offset faceCenter;
+  final double faceRadius;
+  final Size imageSize;
+  final Color color;
+
+  FaceIndicatorPainter({
+    required this.faceCenter,
+    required this.faceRadius,
+    required this.imageSize,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    final scaleX = size.width / imageSize.width;
+    final scaleY = size.height / imageSize.height;
+
+    final adjustedCenter = Offset(
+      faceCenter.dx * scaleX,
+      faceCenter.dy * scaleY,
+    );
+
+    final adjustedRadiusX = faceRadius * scaleX;
+    final adjustedRadiusY = faceRadius * scaleY;
+
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: adjustedCenter,
+        width: adjustedRadiusX * 1.5,
+        height: adjustedRadiusY * 2,
+      ),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(FaceIndicatorPainter oldDelegate) {
+    return faceCenter != oldDelegate.faceCenter ||
+        faceRadius != oldDelegate.faceRadius ||
+        imageSize != oldDelegate.imageSize ||
+        color != oldDelegate.color;
   }
 }

@@ -1,4 +1,3 @@
-// Copyright 2022 Conezi. All rights reserved.
 
 /// Affect the quality of video recording and image capture:
 ///
