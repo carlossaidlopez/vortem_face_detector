@@ -1,8 +1,6 @@
 PODS:
   - camera_avfoundation (0.0.1):
     - Flutter
-  - face_camera (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
   - google_mlkit_commons (0.7.1):
     - Flutter
@@ -61,13 +59,15 @@ PODS:
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
   - PromisesObjC (2.4.0)
+  - vortem_face_detector (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
-  - face_camera (from `.symlinks/plugins/face_camera/ios`)
   - Flutter (from `Flutter`)
   - google_mlkit_commons (from `.symlinks/plugins/google_mlkit_commons/ios`)
   - google_mlkit_face_detection (from `.symlinks/plugins/google_mlkit_face_detection/ios`)
+  - vortem_face_detector (from `.symlinks/plugins/vortem_face_detector/ios`)
 
 SPEC REPOS:
   trunk:
@@ -87,18 +87,17 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
-  face_camera:
-    :path: ".symlinks/plugins/face_camera/ios"
   Flutter:
     :path: Flutter
   google_mlkit_commons:
     :path: ".symlinks/plugins/google_mlkit_commons/ios"
   google_mlkit_face_detection:
     :path: ".symlinks/plugins/google_mlkit_face_detection/ios"
+  vortem_face_detector:
+    :path: ".symlinks/plugins/vortem_face_detector/ios"
 
 SPEC CHECKSUMS:
   camera_avfoundation: 759172d1a77ae7be0de08fc104cfb79738b8a59e
-  face_camera: 9473f8c80e20d67bd2d946ed573ccee168d31186
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google_mlkit_commons: 96aaca445520311b84a2da013dedf3427fe4cc69
   google_mlkit_face_detection: b760d6035222630f347352b3b13f4a23ea9fb994
@@ -114,6 +113,7 @@ SPEC CHECKSUMS:
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  vortem_face_detector: 62c42b08187d12661c1528957ed54fa3d37b81cb
 
 PODFILE CHECKSUM: 0d895a65d153cd6b7f421b4d23b29c977b9f03bc
 

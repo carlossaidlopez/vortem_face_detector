@@ -3,7 +3,7 @@
 # Run `pod lib lint face_camera.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'face_camera'
+  s.name             = 'vortem_face_detector'
   s.version          = '0.0.1'
   s.summary          = 'A Flutter camera plugin that detects face in real-time.'
   s.description      = <<-DESC
