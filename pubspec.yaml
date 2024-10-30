@@ -1,6 +1,6 @@
 name: vortem_face_detector
 description: "Face detector plugin for Vortem"
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/carlossaidlopez/vortem_face_detector.git
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera: ^0.11.0+1
-  google_mlkit_face_detection: ^0.11.0
+  camera: ^0.11.0+2
+  google_mlkit_face_detection: ^0.12.0
 
 dev_dependencies:
   flutter_test:

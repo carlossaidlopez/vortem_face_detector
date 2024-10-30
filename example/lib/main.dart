@@ -133,7 +133,7 @@ class _MyAppState extends State<MyApp> {
                             child: Icon(
                               Icons.flip_camera_ios,
                               color: widget.secondaryColor,
-                              size: 40,
+                              size: 30,
                             ),
                           ),
                           indicatorBuilder: (context, detectedFace, imageSize) {
